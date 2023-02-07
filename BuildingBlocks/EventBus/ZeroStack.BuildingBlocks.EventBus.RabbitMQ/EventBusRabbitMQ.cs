@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using static ZeroStack.BuildingBlocks.EventBus.Abstractions.IIntegrationEventHandler;
 using ZeroStack.BuildingBlocks.EventBus.Abstractions;
 using ZeroStack.BuildingBlocks.EventBus.Events;
+using ZeroStack.BuildingBlocks.EventBus.Extensions;
 
 namespace ZeroStack.BuildingBlocks.EventBus.RabbitMQ
 {
@@ -106,7 +107,7 @@ namespace ZeroStack.BuildingBlocks.EventBus.RabbitMQ
 
         public void SubscribeDynamic<TH>(string eventName) where TH : IDynamicIntegrationEventHandler
         {
-            _logger.LogInformation("Subscribing to dynamic event {EventName} with {EventHandler}", eventName, typeof(TH));
+            _logger.LogInformation("Subscribing to dynamic event {EventName} with {EventHandler}", eventName, typeof(TH).GetGenericTypeName());
 
             DoInternalSubscription(eventName);
             _subsManager.AddDynamicSubscription<TH>(eventName);
@@ -118,7 +119,7 @@ namespace ZeroStack.BuildingBlocks.EventBus.RabbitMQ
             var eventName = _subsManager.GetEventKey<T>();
             DoInternalSubscription(eventName);
 
-            _logger.LogInformation("Subscribing to event {EventName} with {EventHandler}", eventName, typeof(TH));
+            _logger.LogInformation("Subscribing to event {EventName} with {EventHandler}", eventName, typeof(TH).GetGenericTypeName());
 
             _subsManager.AddSubscription<T, TH>();
             StartBasicConsume();
