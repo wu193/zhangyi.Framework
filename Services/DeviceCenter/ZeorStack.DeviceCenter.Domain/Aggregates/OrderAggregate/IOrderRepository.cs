@@ -1,0 +1,18 @@
+﻿using System;
+using System.Threading.Tasks;
+using ZeorStack.DeviceCenter.Domain.Repositories;
+
+namespace ZeorStack.DeviceCenter.Domain.Aggregates.OrderAggregate
+{
+    //This is just the RepositoryContracts or Interface defined at the Domain Layer
+    //as requisite for the Order Aggregate
+
+    public interface IOrderRepository : IRepository<Order>
+    {
+        Order Add(Order order);
+
+        void Update(Order order);
+
+        Task<Order> GetAsync(Guid orderId);
+    }
+}
